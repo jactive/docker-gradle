@@ -64,6 +64,8 @@ RUN set -o errexit -o nounset \
 RUN set -o errexit -o nounset \
     && echo 'https://developers.yubico.com/PIV/Guides/Generating_keys_using_OpenSSL.html' >> note \
     && echo 'https://www.openssl.org/docs/man1.0.2/man1/openssl-rsa.html' >> note \
+    && echo >> note \
+    && echo 'https://kotlinlang.org/docs/reference/basic-syntax.html' >> note \
     \
     && echo "alias l='ls'" >> .bash_aliases \
     && echo "alias ls='ls -G'" >> .bash_aliases \
