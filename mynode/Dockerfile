@@ -67,6 +67,90 @@ RUN set -ex \
   # smoke test
   && yarn --version
 
+RUN apt-get update \
+    && apt-get install --yes --no-install-recommends \
+        fontconfig \
+        \
+        bzr \
+        git \
+        git-lfs \
+        mercurial \
+        openssh-client \
+        subversion \
+        \
+        unzip \
+        wget \
+        zip \
+        unzip \
+        file \
+        lynx \
+        vim \
+        apache2 \
+        tmux \
+        tree \
+        awscli \
+    && rm -rf /var/lib/apt/lists/*
+
+RUN set -o errexit -o nounset \
+    && echo 'https://developers.yubico.com/PIV/Guides/Generating_keys_using_OpenSSL.html' >> note \
+    && echo 'https://www.openssl.org/docs/man1.0.2/man1/openssl-rsa.html' >> note \
+    && echo >> note \
+    && echo 'https://kotlinlang.org/docs/reference/basic-syntax.html' >> note \
+    \
+    && echo "alias l='ls'" >> .bash_aliases \
+    && echo "alias ls='ls -G'" >> .bash_aliases \
+    && echo "alias ll='ls -Gl'" >> .bash_aliases \
+    && echo "alias grep='grep --color=auto'" >> .bash_aliases \
+    && echo "alias vi='vim'" >> .bash_aliases \
+    \
+    && git config --global user.name 'Haifeng Won' \
+    && git config --global user.email 'jactive@126.com' \
+    && git clone https://github.com/jactive/demo workplace/demo \
+    \
+    && mkdir -p /home/coder/.vim/backup \
+    && echo 'set ignorecase' >> .vimrc \
+    && echo 'set smartcase' >> .vimrc \
+    && echo  >> .vimrc \
+    && echo 'set hlsearch' >> .vimrc \
+    && echo '' >> .vimrc \
+    && echo 'set nocp' >> .vimrc \
+    && echo 'set bs=indent,eol,start' >> .vimrc \
+    && echo 'set hlsearch' >> .vimrc \
+    && echo 'set sw=2 sts=2 et' >> .vimrc \
+    && echo  >> .vimrc \
+    && echo 'set paste' >> .vimrc \
+    && echo  >> .vimrc \
+    && echo 'set tabstop=2' >> .vimrc \
+    && echo 'set shiftwidth=2' >> .vimrc \
+    && echo 'set expandtab' >> .vimrc \
+    && echo '' >> .vimrc \
+    && echo 'set autoindent' >> .vimrc \
+    && echo 'set smartindent' >> .vimrc \
+    && echo 'set cindent' >> .vimrc \
+    && echo '' >> .vimrc \
+    && echo ':set ruler' >> .vimrc \
+    && echo  >> .vimrc \
+    && echo 'set backup' >> .vimrc \
+    && echo 'set backupdir=~/.vim/backup/' >> .vimrc \
+    && echo 'set writebackup' >> .vimrc \
+    && echo 'set backupcopy=yes' >> .vimrc \
+    && echo 'au BufWritePre * let &bex = '@' . strftime("%F.%H:%M")' >> .vimrc \
+    && echo >> .vimrc \
+    && echo '" set expandtab' >> .vimrc \
+    && echo 'autocmd BufRead,BufNewFile *.go set tabstop=3' >> .vimrc \
+    && echo 'autocmd BufRead,BufNewFile *.go set softtabstop=3' >> .vimrc \
+    && echo 'autocmd BufRead,BufNewFile *.go set softtabstop=3' >> .vimrc \
+    && echo 'autocmd BufRead,BufNewFile *.go set expandtab!' >> .vimrc \
+    && echo 'autocmd BufRead,BufNewFile *.go set autoindent' >> .vimrc \
+    && echo 'autocmd BufRead,BufNewFile *.go set smartindent' >> .vimrc \
+    && echo 'autocmd BufRead,BufNewFile *.go set cindent' >> .vimrc \
+    && echo >> .vimrc \
+    && echo 'autocmd BufRead,BufNewFile Makefile set expandtab!' >> .vimrc \
+    && echo >> .vimrc \
+    && echo 'autocmd BufWritePre * %s/\s\+$//e' >> .vimrc \
+    && echo '' >> .vimrc \
+    && echo 'syntax on' >> .vimrc
+
 COPY docker-entrypoint.sh /usr/local/bin/
 # ENTRYPOINT ["docker-entrypoint.sh"]
 
