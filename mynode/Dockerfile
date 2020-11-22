@@ -91,15 +91,16 @@ RUN apt-get update \
         awscli \
     && rm -rf /var/lib/apt/lists/*
 
+WORKDIR /home/node
 RUN set -o errexit -o nounset \
     && echo 'https://developers.yubico.com/PIV/Guides/Generating_keys_using_OpenSSL.html' >> note \
     && echo 'https://www.openssl.org/docs/man1.0.2/man1/openssl-rsa.html' >> note \
     && echo >> note \
     && echo 'https://kotlinlang.org/docs/reference/basic-syntax.html' >> note \
     \
+    && echo "alias ls='ls --color'" >> .bash_aliases \
     && echo "alias l='ls'" >> .bash_aliases \
-    && echo "alias ls='ls -G'" >> .bash_aliases \
-    && echo "alias ll='ls -Gl'" >> .bash_aliases \
+    && echo "alias ll='ls -l --color'" >> .bash_aliases \
     && echo "alias grep='grep --color=auto'" >> .bash_aliases \
     && echo "alias vi='vim'" >> .bash_aliases \
     \
@@ -107,7 +108,7 @@ RUN set -o errexit -o nounset \
     && git config --global user.email 'jactive@126.com' \
     && git clone https://github.com/jactive/demo workplace/demo \
     \
-    && mkdir -p /home/coder/.vim/backup \
+    && mkdir -p .vim/backup \
     && echo 'set ignorecase' >> .vimrc \
     && echo 'set smartcase' >> .vimrc \
     && echo  >> .vimrc \
@@ -149,9 +150,11 @@ RUN set -o errexit -o nounset \
     && echo >> .vimrc \
     && echo 'autocmd BufWritePre * %s/\s\+$//e' >> .vimrc \
     && echo '' >> .vimrc \
-    && echo 'syntax on' >> .vimrc
+    && echo 'syntax on' >> .vimrc \
+    && chown -R node.node /home/node
 
 COPY docker-entrypoint.sh /usr/local/bin/
+
 # ENTRYPOINT ["docker-entrypoint.sh"]
 
 ## CMD [ "node" ]
